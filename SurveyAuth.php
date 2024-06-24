@@ -13,10 +13,10 @@ class SurveyAuth extends AbstractExternalModule
 		$time = time();
 		if (empty($auth) || empty($user))
 			$this->sendToAuthPage($survey);
-		$validHashList = [ // 50 min total grace period
+		$validHashList = [ // 30 min total grace period
 			$this->makeHash($survey, $user, $time),
-			$this->makeHash($survey, $user, $time-1000),
-			$this->makeHash($survey, $user, $time+1000)
+			$this->makeHash($survey, $user, $time-600),
+			$this->makeHash($survey, $user, $time-1200)
 		];
 		if (!in_array($auth, $validHashList))
 			$this->sendToAuthPage($survey);
@@ -24,8 +24,8 @@ class SurveyAuth extends AbstractExternalModule
 	
 	public function makeHash($survey, $user, $time)
 	{
-		$roundedTime = round($time, -3); //about 15mins, 1000 seconds
-		return hash('sha256', "$survey$user$roundedTime");
+		$time = round($time / 60, -1) * 60; // rounded to 10mins
+		return hash('sha256', "$survey$user$time");
 	}
 	
 	private function sendToAuthPage($survey)
