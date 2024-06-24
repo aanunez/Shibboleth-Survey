@@ -1,0 +1,17 @@
+{
+    "name": "Survey Auth",
+    "description": "Force users ",
+    "documentation": "README.md",
+    "namespace": "Geisinger\\SurveyAuth",
+    "authors": [
+        {
+            "name": "Adam Nunez",
+            "email": "anunez3@geisinger.edu",
+            "institution": "Geisinger Health"
+        }
+    ],
+    "framework-version": 14,
+    "compatibility": {
+        "redcap-version-min": "14.0.0"
+    }
+}
