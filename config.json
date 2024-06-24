@@ -11,6 +11,18 @@
         }
     ],
     "framework-version": 14,
+	"system-settings": [
+        {
+            "key": "user-item",
+            "name": "<b>Server Username Login Field</b><br>Name of the $_SERVER[X] variable with the authenticated username",
+            "type": "textbox"
+        },
+        {
+            "key": "grace",
+            "name": "<b>Grace Time</b><br>Length of time that login is valid for in minutes",
+            "type": "textbox"
+        }
+    ],
     "compatibility": {
         "redcap-version-min": "14.0.0"
     }

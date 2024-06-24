@@ -6,6 +6,9 @@ use ExternalModules\AbstractExternalModule;
 
 class SurveyAuth extends AbstractExternalModule
 {
+	private $defaultGrace = 15;
+	public $defaultItem = "HTTP_REMOTE_USER";
+	
 	public function redcap_survey_page_top($project_id, $record, $instrument, $event, $group, $survey)
 	{
 		$auth = $_GET["auth"];
@@ -13,19 +16,19 @@ class SurveyAuth extends AbstractExternalModule
 		$time = time();
 		if (empty($auth) || empty($user))
 			$this->sendToAuthPage($survey);
-		$validHashList = [ // 30 min total grace period
-			$this->makeHash($survey, $user, $time),
-			$this->makeHash($survey, $user, $time-600),
-			$this->makeHash($survey, $user, $time-1200)
-		];
+		$grace = int($this->getSystemSetting("grace"));
+		$grace = $grace == 0 ? $this->defaultGrace : $grace;
+		for ($i = 0; $i < $grace; $i++) {
+			$validHashList[] = $this->makeHash($survey, $user, $time - (60 * i));
+		}
 		if (!in_array($auth, $validHashList))
 			$this->sendToAuthPage($survey);
 	}
 	
 	public function makeHash($survey, $user, $time)
 	{
-		$time = round($time / 60, -1) * 60; // rounded to 10mins
-		return hash('sha256', "$survey$user$time");
+		$time = round($time / 60) * 60; // rounded to nearest min
+		return hash("sha256", "$survey$user$time");
 	}
 	
 	private function sendToAuthPage($survey)
