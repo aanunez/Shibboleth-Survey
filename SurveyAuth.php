@@ -12,7 +12,8 @@ class SurveyAuth extends AbstractExternalModule
 	public function redcap_survey_page_top($project_id, $record, $instrument, $event, $group, $survey)
 	{
 		$auth = $_GET["auth"];
-		$user = $_SERVER["HTTP_REMOTE_USER"];
+		$item = $module->getSystemSetting("user-item");
+		$user = $_SERVER[empty($item) ? $module->defaultItem : $item];
 		$time = time();
 		if (empty($auth) || empty($user))
 			$this->sendToAuthPage($survey);
