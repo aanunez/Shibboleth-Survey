@@ -1,8 +1,8 @@
-# Survey-Auth
+# PingID-Survey
 
 ## What does it do?
 
-Simple Redcap to force the user to login prior to responding on a survey. This module will work with any login method that sets a PHP-accessible header value (i.e. something in $_SERVER like HTTP_REMOTE_USER). This is usually Shibboleth, but other login methods may function similarly. 
+A simple Redcap EM to force the user to login prior to responding on a survey. This module will work with any login method that sets a PHP-accessible header value (i.e. something in $_SERVER like HTTP_REMOTE_USER). This is usually Shibboleth, but other login methods may function similarly. Review system level config prior to using.
 
 ## Installing
 
