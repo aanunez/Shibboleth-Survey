@@ -1,6 +1,6 @@
 {
     "name": "Survey Auth",
-    "description": "Force users ",
+    "description": "Force all surveys on a project to require authorization to access. No project level configuration necessary.",
     "documentation": "README.md",
     "namespace": "Geisinger\\SurveyAuth",
     "authors": [
