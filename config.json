@@ -11,7 +11,7 @@
         }
     ],
     "framework-version": 14,
-	"system-settings": [
+    "system-settings": [
         {
             "key": "user-item",
             "name": "<b>Server Username Login Field</b><br>Name of the $_SERVER[X] variable with the authenticated username",
@@ -21,6 +21,18 @@
             "key": "grace",
             "name": "<b>Grace Time</b><br>Length of time that login is valid for in minutes",
             "type": "textbox"
+        },
+        {
+            "key": "salt",
+            "name": "Salt",
+            "type": "textbox",
+            "hidden": true
+        },
+        {
+            "key": "pepper",
+            "name": "Pepper",
+            "type": "textbox",
+            "hidden": true
         }
     ],
     "compatibility": {

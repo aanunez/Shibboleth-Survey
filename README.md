@@ -10,6 +10,5 @@ You can install the module by droping it directly in your modules folder (i.e. `
 
 ## TODO
 
-* When the module is enabled we need to one-time generate a salt string to use in the hash
 * Do we need to move to the before render hook?
 * Testing
