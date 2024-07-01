@@ -1,4 +1,4 @@
-# PingID-Survey
+# Shibboleth-Survey
 
 ## What does it do?
 
