@@ -41,6 +41,9 @@ class ShibbolethSurveyAuth extends AbstractExternalModule
 		if (!in_array($auth, $validHashList))
 			$this->sendToAuthPage($survey);
 
+		// Log a successful authentication
+		REDCap::logEvent("Authenticated Survey", "User: $user", null, $record, $event, $project_id);
+
 		// User is authenticated, check for action tag and build JS
 		$js = [];
 		$dd = REDCap::getDataDictionary("array", false, null, $instrument);
