@@ -1,10 +1,11 @@
 <?php
 
-namespace Geisinger\SurveyAuth;
+namespace Geisinger\ShibbolethSurveyAuth;
 
 use ExternalModules\AbstractExternalModule;
+use REDCap;
 
-class SurveyAuth extends AbstractExternalModule
+class ShibbolethSurveyAuth extends AbstractExternalModule
 {
 	private $defaultGrace = 15;
 	public $defaultItem = "HTTP_REMOTE_USER";
@@ -25,15 +26,36 @@ class SurveyAuth extends AbstractExternalModule
 		$item = $this->getSystemSetting("user-item");
 		$user = $_SERVER[empty($item) ? $this->defaultItem : $item];
 		$time = time();
+
+		// If unauthenticated, kick to login
 		if (empty($auth) || empty($user))
 			$this->sendToAuthPage($survey);
+
+		// Calc valid hashes
 		$grace = intval($this->getSystemSetting("grace"));
 		$grace = $grace == 0 ? $this->defaultGrace : $grace;
-		for ($i = 0; $i < $grace; $i++) {
+		for ($i = 0; $i < $grace; $i++)
 			$validHashList[] = $this->makeHash($survey, $user, $time - (60 * $i));
-		}
+
+		// Check if hash is invalid, kick to login
 		if (!in_array($auth, $validHashList))
 			$this->sendToAuthPage($survey);
+
+		// User is authenticated, check for action tag and build JS
+		$js = [];
+		$dd = REDCap::getDataDictionary("array", false, null, $instrument);
+		foreach ($dd as $field => $props) {
+			if (in_array($props["field_type"], ["text", "notes"]) && (strpos($props["field_annotation"], "@SSOUSER") !== false))
+				$js[] = "document.querySelector('" . ($props["field_type"] == "notes" ? "textarea" : "input") . "[name=$field]').value = '$user';";
+		}
+
+		// If action tag exists, pass down JS to fill in the field
+		if (count($js) > 0) {
+			$js = implode("\n", $js);
+			echo "<script> document.addEventListener('DOMContentLoaded', () => {
+				$js
+			}); </script>";
+		}
 	}
 
 	public function makeHash($survey, $user, $time)
