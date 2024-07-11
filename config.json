@@ -1,8 +1,8 @@
 {
-    "name": "Survey Auth",
-    "description": "Force all surveys on a project to require authorization to access. No project level configuration necessary.",
+    "name": "Shibboleth Survey Auth",
+    "description": "Force all surveys on a project to require SSO to access. No project level configuration necessary.",
     "documentation": "README.md",
-    "namespace": "Geisinger\\SurveyAuth",
+    "namespace": "Geisinger\\ShibbolethSurveyAuth",
     "authors": [
         {
             "name": "Adam Nunez",
@@ -11,6 +11,12 @@
         }
     ],
     "framework-version": 14,
+    "action-tags": [
+        {
+            "tag": "@SSOUSER",
+            "description": "Set the field's value to the authenticated user's username on a survey"
+        }
+    ],
     "system-settings": [
         {
             "key": "user-item",
@@ -34,8 +40,5 @@
             "type": "textbox",
             "hidden": true
         }
-    ],
-    "compatibility": {
-        "redcap-version-min": "14.0.0"
-    }
+    ]
 }
