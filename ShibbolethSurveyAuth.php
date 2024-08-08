@@ -48,8 +48,11 @@ class ShibbolethSurveyAuth extends AbstractExternalModule
 		$js = [];
 		$dd = REDCap::getDataDictionary("array", false, null, $instrument);
 		foreach ($dd as $field => $props) {
-			if (in_array($props["field_type"], ["text", "notes"]) && (strpos($props["field_annotation"], "@SSOUSER") !== false))
-				$js[] = "document.querySelector('" . ($props["field_type"] == "notes" ? "textarea" : "input") . "[name=$field]').value = '$user';";
+			if (in_array($props["field_type"], ["text", "notes"]) && (strpos($props["field_annotation"], "@SSOUSER") !== false)) {
+				$selector = "document.querySelector('" . ($props["field_type"] == "notes" ? "textarea" : "input") . "[name=$field]')";
+				$js[] = "$selector.value = '$user';";
+				$js[] = "$selector.change();";
+			}
 		}
 
 		// If action tag exists, pass down JS to fill in the field
