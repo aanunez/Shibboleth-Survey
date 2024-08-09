@@ -51,7 +51,7 @@ class ShibbolethSurveyAuth extends AbstractExternalModule
 			if (in_array($props["field_type"], ["text", "notes"]) && (strpos($props["field_annotation"], "@SSOUSER") !== false)) {
 				$selector = "document.querySelector('" . ($props["field_type"] == "notes" ? "textarea" : "input") . "[name=$field]')";
 				$js[] = "$selector.value = '$user';";
-				$js[] = "$selector.change();";
+				$js[] = "$selector.dispatchEvent(new Event('change'));";
 			}
 		}
 
