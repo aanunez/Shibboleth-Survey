@@ -74,7 +74,7 @@ class ShibbolethSurveyAuth extends AbstractExternalModule
 
 	private function sendToAuthPage($survey)
 	{
-		$url = $this->getUrl("login.php");
+		$url = $this->getUrl("login.php", true); // No auth url
 		header("Location: $url&s=$survey");
 	}
 }
