@@ -23,6 +23,7 @@ class ShibbolethSurveyAuth extends AbstractExternalModule
 	public function redcap_survey_page_top($project_id, $record, $instrument, $event, $group, $survey)
 	{
 		$auth = $_GET["auth"] ?? $_COOKIE["ShibbolethSurveyAuth"];
+		$session = $_COOKIE["survey"]; // Session id used for surveys
 		$item = $this->getSystemSetting("user-item");
 		$user = $_SERVER[empty($item) ? $this->defaultItem : $item];
 		$time = time();
@@ -35,7 +36,7 @@ class ShibbolethSurveyAuth extends AbstractExternalModule
 		$grace = intval($this->getSystemSetting("grace"));
 		$grace = $grace == 0 ? $this->defaultGrace : $grace;
 		for ($i = 0; $i < $grace; $i++)
-			$validHashList[] = $this->makeHash($survey, $user, $time - (60 * $i));
+			$validHashList[] = $this->makeHash($project_id, $session, $user, $time - (60 * $i));
 
 		// Check if hash is invalid, kick to login
 		if (!in_array($auth, $validHashList))
@@ -64,12 +65,12 @@ class ShibbolethSurveyAuth extends AbstractExternalModule
 		}
 	}
 
-	public function makeHash($survey, $user, $time)
+	public function makeHash($project_id, $session, $user, $time)
 	{
 		$salt = $this->getSystemSetting("salt");
 		$pepper = $this->getSystemSetting("pepper");
 		$time = round($time / 60) * 60; // rounded to nearest min
-		return hash("sha256", "$salt$survey$user$time$pepper");
+		return hash("sha256", "$salt$project_id$session$user$time$pepper");
 	}
 
 	private function sendToAuthPage($survey)
