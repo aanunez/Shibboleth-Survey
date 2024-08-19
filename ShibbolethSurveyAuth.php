@@ -22,7 +22,7 @@ class ShibbolethSurveyAuth extends AbstractExternalModule
 
 	public function redcap_survey_page_top($project_id, $record, $instrument, $event, $group, $survey)
 	{
-		$auth = $_GET["auth"];
+		$auth = $_GET["auth"] ?? $_COOKIE["ShibbolethSurveyAuth"];
 		$item = $this->getSystemSetting("user-item");
 		$user = $_SERVER[empty($item) ? $this->defaultItem : $item];
 		$time = time();
