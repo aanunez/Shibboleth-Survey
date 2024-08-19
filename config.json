@@ -17,6 +17,16 @@
             "description": "Set the field's value to the authenticated user's username on a survey"
         }
     ],
+    "no-auth-pages": [
+        "login"
+    ],
+    "project-settings": [
+        {
+            "key": "allowlist",
+            "name": "<b>Check Allowlist</b><br>Only allow users on the REDCap Allow List to access surveys",
+            "type": "checkbox"
+        }
+    ],
     "system-settings": [
         {
             "key": "user-item",
