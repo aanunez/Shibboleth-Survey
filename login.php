@@ -23,4 +23,6 @@ if ($allowlist) {
 $hash = $module->makeHash($survey, $user, $time);
 $base = "http" . (empty($_SERVER["HTTPS"]) ? "" : "s") . "://" . $_SERVER["HTTP_HOST"];
 
+// Set cookie and redirect
+setcookie("ShibbolethSurveyAuth", $hash, 0, "/");
 header("Location: $base/surveys/?s=$survey&auth=$hash");
