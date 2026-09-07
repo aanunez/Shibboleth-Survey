@@ -38,6 +38,7 @@ class ShibbolethSurveyAuth extends AbstractExternalModule
 		}
 
 		// Calc valid hashes
+		$validHashList = [];
 		$grace = intval($this->getSystemSetting("grace"));
 		$grace = $grace == 0 ? $this->defaultGrace : $grace;
 		for ($i = 0; $i < $grace; $i++)

@@ -1,6 +1,9 @@
 <?php
 // Being able to access this page means the user has logged in
 // http://localhost.edu/redcap_v99.9.99/ExternalModules/?prefix=shibboleth_survey_auth&page=login&pid=16&s=1234567890
+
+/** @var \UWMadison\ShibbolethSurveyAuth\ShibbolethSurveyAuth $module */
+/** @var \UWMadison\ShibbolethSurveyAuth\ShibbolethSurveyAuth $project_id */
 $generic_error = "Unable to authenticate user. Please contact your REDCap administrator.";
 $session = null;
 foreach ($_COOKIE as $key => $value) {
